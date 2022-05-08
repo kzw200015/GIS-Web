@@ -1,8 +1,8 @@
 <template>
     <el-table :data="tableData">
-        <el-table-column label="id" prop="id"/>
-        <el-table-column label="用户名" prop="username"/>
-        <el-table-column label="角色" prop="role"/>
+        <el-table-column :width="100" align="center" label="id" prop="id" />
+        <el-table-column align="center" label="用户名" prop="username" />
+        <el-table-column align="center" label="角色" prop="role" />
         <el-table-column :width="175" align="center" fixed="right" label="操作">
             <template #default="scope">
                 <el-button type="primary">编辑</el-button>
@@ -11,7 +11,7 @@
         </el-table-column>
     </el-table>
     <el-pagination v-model:current-page="currentPage" :page-size="10" :total="userPage.total"
-                   layout="prev, pager, next"/>
+        layout="prev, pager, next" />
 </template>
 <script lang="ts" setup>
 import { onMounted, reactive, ref, watch } from "vue"

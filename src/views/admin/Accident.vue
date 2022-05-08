@@ -1,18 +1,18 @@
 <template>
     <el-table :data="tableData">
-        <el-table-column :width="100" align="center" label="id" prop="id"/>
+        <el-table-column :width="100" align="center" label="id" prop="id" />
         <el-table-column align="center" label="坐标">
-            <el-table-column :show-overflow-tooltip="true" align="center" label="X" prop="coordinate.x"/>
-            <el-table-column :show-overflow-tooltip="true" align="center" label="Y" prop="coordinate.y"/>
+            <el-table-column :show-overflow-tooltip="true" align="center" label="X" prop="coordinate.x" />
+            <el-table-column :show-overflow-tooltip="true" align="center" label="Y" prop="coordinate.y" />
         </el-table-column>
-        <el-table-column align="center" label="描述" prop="description"/>
+        <el-table-column align="center" label="描述" prop="description" />
         <el-table-column align="center" label="时间">
             <template #default="scope">{{ (new Date(scope.row.time)).toLocaleString() }}</template>
         </el-table-column>
         <el-table-column align="center" label="是否已解决">
             <template #default="scope">{{ scope.row.isResolved ? "是" : "否" }}</template>
         </el-table-column>
-        <el-table-column align="center" label="现场图片" prop="image"/>
+        <el-table-column align="center" label="现场图片" prop="image" />
         <el-table-column :width="175" align="center" fixed="right" label="操作">
             <template #default="scope">
                 <el-button type="primary">编辑</el-button>
@@ -20,8 +20,7 @@
             </template>
         </el-table-column>
     </el-table>
-    <el-pagination v-model:current-page="page" :page-size="10" :total="accidentPage.total"
-                   layout="prev, pager, next"/>
+    <el-pagination v-model:current-page="page" :page-size="10" :total="accidentPage.total" layout="prev, pager, next" />
 </template>
 <script lang="ts" setup>
 import { onMounted, reactive, ref, watch } from "vue"
