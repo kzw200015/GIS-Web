@@ -1,5 +1,5 @@
 <template>
-    <el-table :data="tableData">
+    <el-table :data="accidentPage.values">
         <el-table-column :width="100" align="center" label="id" prop="id" />
         <el-table-column align="center" label="坐标">
             <el-table-column :show-overflow-tooltip="true" align="center" label="X" prop="coordinate.x" />
@@ -31,16 +31,12 @@ const page = ref(1)
 
 const accidentPage = reactive<Page<Accident>>({ page: 0, size: 0, total: 0, values: [] })
 
-const tableData = reactive<Array<Accident>>(accidentPage.values)
-
-
 const fetchData = async (page: number, size: number = 10) => {
     const resp: Page<Accident> = (await api.get("/accidents", { params: { "page": page, "size": size } })).data.data
     accidentPage.page = resp.page
     accidentPage.size = resp.size
     accidentPage.total = resp.total
-    accidentPage.values.splice(0, accidentPage.values.length)
-    accidentPage.values.push(...resp.values)
+    accidentPage.values.splice(0, accidentPage.values.length, ...resp.values)
 }
 
 watch(page, (page) => {

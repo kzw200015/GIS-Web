@@ -1,3 +1,9 @@
+export interface Location {
+    id: number
+    x: number
+    y: number
+}
+
 export enum Role {
     ADMIN, REPORTER, POLICE
 }

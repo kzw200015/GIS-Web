@@ -1,5 +1,5 @@
 <template>
-    <el-table :data="tableData">
+    <el-table :data="userPage.values">
         <el-table-column :width="100" align="center" label="id" prop="id" />
         <el-table-column align="center" label="用户名" prop="username" />
         <el-table-column align="center" label="角色" prop="role" />
@@ -22,15 +22,12 @@ const currentPage = ref(1)
 
 const userPage = reactive<Page<User>>({ page: 0, size: 0, total: 0, values: [] })
 
-const tableData = reactive<User[]>(userPage.values)
-
 const fetchData = async (page: number, size: number = 10) => {
     const resp: Page<User> = (await api.get("/users", { params: { "page": page, "size": size } })).data.data
     userPage.page = resp.page
     userPage.size = resp.size
     userPage.total = resp.total
-    userPage.values.splice(0, userPage.values.length) //清空数组
-    userPage.values.push(...resp.values)
+    userPage.values.splice(0, userPage.values.length, ...resp.values)
 }
 
 watch(currentPage, (page) => {
