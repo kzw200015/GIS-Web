@@ -1,7 +1,7 @@
 import { Stomp } from "@stomp/stompjs"
 import axios from "axios"
-import { reactive } from "vue"
-import { Location } from "../types"
+import { reactive, ref, watch } from "vue"
+import { Accident, Location, Page } from "../types"
 
 const api = axios.create({
     baseURL: "/api",
@@ -35,4 +35,29 @@ export const usePoliceLocations = () => {
 
     stompClient.activate()
     return policeLocations
+}
+
+export const useAccident = async () => {
+    const accidentId = ref(0)
+    const accident = ref<Accident>()
+    watch(accidentId, async (id) => {
+        accident.value = (await api.get("/accidents/" + accidentId.value)).data.data
+    })
+
+    return { accidentId, accident }
+}
+
+export const useAccidentPage = () => {
+    const page = ref(0)
+    const size = ref(10)
+    const accidents = ref<Page<Accident>>()
+    watch(page, async () => {
+        accidents.value = (await api.get("/accidents", {
+            params: {
+                page: page.value,
+                size: size.value
+            }
+        })).data.data
+    })
+    return { page, size, accidents }
 }

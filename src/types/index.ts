@@ -48,3 +48,8 @@ export interface Accident extends BaseEntity {
     isResolved: boolean
     image: string
 }
+
+export interface Route {
+    cost: { duration: string }
+    steps: { tmcs: { tmc_polyline: string }[] }[]
+}

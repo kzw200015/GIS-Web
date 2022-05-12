@@ -1,4 +1,3 @@
-import "@amap/amap-jsapi-types"
 import { initAMapApiLoader } from "@vuemap/vue-amap"
 import "@vuemap/vue-amap/dist/style.css"
 import "element-plus/es/components/message/style/css"
