@@ -1,15 +1,25 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router"
 import Admin from "../views/Admin.vue"
-import Accident from "../views/admin/Accident.vue"
-import Map from "../views/admin/Map.vue"
-import User from "../views/admin/User.vue"
+import AdminAccident from "../views/admin/Accident.vue"
+import AdminMap from "../views/admin/Map.vue"
+import AdminUser from "../views/admin/User.vue"
 import Login from "../views/Login.vue"
+import Police from "../views/Police.vue"
+import Reporter from "../views/Reporter.vue"
 
 const routes: RouteRecordRaw[] = [
     {
         path: "/login",
         component: Login,
         props: route => ({ redirect: route.query.redirect ?? "/admin" })
+    },
+    {
+        path: "/police",
+        component: Police
+    },
+    {
+        path: "/reporter",
+        component: Reporter
     },
     {
         path: "/admin",
@@ -21,15 +31,15 @@ const routes: RouteRecordRaw[] = [
             },
             {
                 path: "map",
-                component: Map
+                component: AdminMap
             },
             {
                 path: "accident",
-                component: Accident
+                component: AdminAccident
             },
             {
                 path: "user",
-                component: User
+                component: AdminUser
             }
         ]
     }

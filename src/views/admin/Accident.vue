@@ -31,7 +31,11 @@
                 <el-table-column align="center" label="是否已解决">
                     <template #default="scope">{{ scope.row.isResolved ? "是" : "否" }}</template>
                 </el-table-column>
-                <el-table-column align="center" label="现场图片" prop="image"/>
+                <el-table-column align="center" label="现场图片">
+                    <template #default="scope">
+                        <el-button type="primary">查看图片</el-button>
+                    </template>
+                </el-table-column>
                 <el-table-column :width="175" align="center" fixed="right" label="操作">
                     <template #default="scope">
                         <el-button type="primary">编辑</el-button>
@@ -93,17 +97,15 @@ const isShowHotspotAnalysis = ref(false)
 const handleHotspotAnalysis = async () => {
     isShowHotspotAnalysis.value = true
     dataSet.data.splice(0, dataSet.data.length)
-    for (let i = 1; i <= 50; i++) {
-        const points = (await api.get("/accidents", {
-            params: {
-                page: i,
-                size: 10
-            }
-        })).data.data.values.map((it: any) => {
-            return { lng: it.coordinate.x, lat: it.coordinate.y, count: 1 }
-        })
-        dataSet.data.push(...points)
-    }
+    const points = (await api.get("/accidents", {
+        params: {
+            page: 1,
+            size: 500
+        }
+    })).data.data.values.map((it: any) => {
+        return { lng: it.coordinate.x, lat: it.coordinate.y, count: 1 }
+    })
+    dataSet.data.push(...points)
 }
 
 
@@ -135,20 +137,18 @@ const isShowStatistics = ref(false)
 const handleStatistics = async () => {
     isStatisticsLoading.value = true
     const dateToCounts = new Map<string, number>()
-    const accidents: Accident[] = []
-    for (let i = 1; i <= 50; i++) {
-        accidents.push(...(await api.get("/accidents", {
-            params: {
-                page: i,
-                size: 10
-            }
-        })).data.data.values)
-    }
+    const accidents: Accident[] = (await api.get("/accidents", {
+        params: {
+            page: 1,
+            size: 500
+        }
+    })).data.data.values
 
     accidents.sort((a, b) => a.time - b.time)
     for (const accident of accidents) {
         const date = new Date(accident.time)
         const dateStr = `${date.getUTCFullYear()}-${date.getUTCMonth() + 1}`
+        // const dateStr = date.toLocaleDateString()
         const count = dateToCounts.get(dateStr)
         if (count) {
             dateToCounts.set(dateStr, count + 1)
